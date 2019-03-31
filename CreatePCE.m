@@ -1,23 +1,15 @@
-function [ myPCE_LARS, PCECoeffArray, PCEIndexArray ] = CreatePCE(ED, retainfraction, prec, p, q, mi)
+function [ myPCE_LARS, PCECoeffArray, PCEIndexArray ] = CreatePCE(ED, hyperpars)
 %CREATEPCE (by Mischa Knabenhans) reads in an experimental design stored
-%into a .mat file with the three fields named k, X, and B.
+%in a matlab structure with only the generic fields X (input) and Y
+%(output). Further one has to pass a set of PCE hyperparameters.
 
-%% 1) GET SIMULATION DATA
-load(ED)
-start = 1;
+XED = ED.X
+YED = ED.Y
 
-% We want to consider only values up to a certain upper k limit:
-upperkLim = retainfraction*k(end);     
-condition = k<upperkLim;
-kout= k(condition);
-XED = X;
-YED = log(B(:,condition));  % Emulating the log of the boost reduces the 
-                            % final emulation error
-
-%% 2) SPARSE PCE (LEAST ANGLE REGRESSION)
-%  A degree-adaptive, sparse PCE is built from the experimental design
-% Specify PCE degree range
-% --> sourced out to UQ_SPCE_ConfigPar.m
+p = hyperpars.MaxPolyDeg
+prec = hyperpars.pcaVariance
+q = hyperpars.qNorm
+mi = hyperpars.MaximalInteraction
 
 %  Select the PCE metamodelling toolbox
 PCEOpts.Type = 'Metamodel';

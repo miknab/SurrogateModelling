@@ -1,15 +1,21 @@
-function [ myPCE_LARS, PCECoeffArray, PCEIndexArray ] = CreatePCE(ED, hyperpars)
+function [ myPCE_LARS, PCECoeffArray, PCEIndexArray ] = CreatePCE(ED, hyperpars, inputModel)
 %CREATEPCE (by Mischa Knabenhans) reads in an experimental design stored
 %in a matlab structure with only the generic fields X (input) and Y
 %(output). Further one has to pass a set of PCE hyperparameters.
 
-XED = ED.X
-YED = ED.Y
+if exist('inputModel', 'var')
+    % If an input model is passed, choose this one for
+    % the evaluation of this function:
+    PCEOpts.Input = inputModel;
+end
 
-p = hyperpars.MaxPolyDeg
-prec = hyperpars.pcaVariance
-q = hyperpars.qNorm
-mi = hyperpars.MaximalInteraction
+XED = ED.X;
+YED = ED.Y;
+
+p = hyperpars.MaxPolyDeg;
+prec = hyperpars.pcaVariance;
+q = hyperpars.qNorm;
+mi = hyperpars.MaximalInteraction;
 
 %  Select the PCE metamodelling toolbox
 PCEOpts.Type = 'Metamodel';

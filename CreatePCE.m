@@ -1,4 +1,4 @@
-function [ myPCE_LARS ] = CreatePCE(ED, retainfraction, prec, p, q, mi)
+function [ myPCE_LARS, PCECoeffArray, PCEIndexArray ] = CreatePCE(ED, retainfraction, prec, p, q, mi)
 %CREATEPCE (by Mischa Knabenhans) reads in an experimental design stored
 %into a .mat file with the three fields named k, X, and B.
 
@@ -44,5 +44,10 @@ PCEOpts.ExpDesign.Y = YED; %YED_mat;
 %  UQLab
 myPCE_LARS = uq_createModel(PCEOpts);
 
+PCECoeffArray = [];
+PCEIndexArray = [];
+for pce=myPCE_LARS.PCE
+    PCECoeffArray = [PCECoeffArray; pce.Coefficients];
+    PCEIndexArray = [PCEIndexArray; pce.Basis.Indices];
 end
 

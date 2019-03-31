@@ -8,13 +8,13 @@ function [ k, procED ] = preprocessEmulatorED( ED, trim )
 % n_k different k modes for each of the n_z redshifts.
 
 if ~exist('trim', 'var')
-    trim = ED.k(end)
+    trim = ED.k(end);
 end
 
-k = ED.k
-k = k(k <= trim)
-procED.X = ED.X
-procED.Y = log(ED.B) % remember that taking the log of the actual data
+k = ED.k;
+k = k(k <= trim);
+procED.X = ED.X;
+procED.Y = log(ED.B); % remember that taking the log of the actual data
                      % can lead to much better emulation results
 
 end

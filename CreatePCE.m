@@ -47,7 +47,9 @@ myPCE_LARS = uq_createModel(PCEOpts);
 PCECoeffArray = [];
 PCEIndexArray = [];
 for pce=myPCE_LARS.PCE
-    PCECoeffArray = [PCECoeffArray; pce.Coefficients];
-    PCEIndexArray = [PCEIndexArray; pce.Basis.Indices];
+    % we can only concatenate several 2D matrices into a ranke 3 tensor
+    % using "cat" if the 2D matrices are not stored as sparse matrices
+    PCECoeffArray = cat(3, PCECoeffArray, full(pce.Coefficients));
+    PCEIndexArray = cat(3, PCEIndexArray, full(pce.Basis.Indices));
 end
 
